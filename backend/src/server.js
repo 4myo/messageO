@@ -15,9 +15,16 @@ const __dirname = path.resolve();
 
 const PORT = process.env.PORT || 3000;
 
-connectDB();
-
-app.use(express.json());
+const startServer = async () => {
+    await connectDB();
+    app.listen(PORT, () => console.log("Server is running on port:" + PORT));
+    };
+    
+    startServer().catch((error) => {
+      console.error("Server startup failed:", error?.message || error);
+      process.exit(1);
+    });
+    
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api/auth", authRoutes);
